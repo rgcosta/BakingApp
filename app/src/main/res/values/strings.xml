@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">BakingApp</string>
+
+    <!-- MainActivity -->
+    <string name="error_message">Um erro desconhecido ocorreu. Por favor, tente novamente.</string>
+    <string name="servings">Servings:</string>
+
 </resources>
