@@ -1,5 +1,7 @@
 package com.example.romul.bakingapp;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,11 +15,15 @@ import com.example.romul.bakingapp.Adapters.RecipesAdapter;
 import com.example.romul.bakingapp.Models.Recipe;
 import com.example.romul.bakingapp.Utils.NetworkUtils;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static com.example.romul.bakingapp.Utils.NetworkUtils.isOnline;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -27,6 +33,10 @@ public class MainActivity extends AppCompatActivity {
     private ProgressBar mLoadingIndicator;
     private RecyclerView mRecipesList;
     private RecipesAdapter mAdapter;
+
+    private List<Recipe> mRecipes = new ArrayList<>();
+
+    private static final String LIST_RECIPES_KEY = "list_recipes_key";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,14 +54,41 @@ public class MainActivity extends AppCompatActivity {
         this.mAdapter = new RecipesAdapter();
         mRecipesList.setAdapter(mAdapter);
 
+        if (savedInstanceState != null){
+            if (savedInstanceState.containsKey(LIST_RECIPES_KEY)){
+                mRecipes = (List<Recipe>) savedInstanceState.getSerializable(LIST_RECIPES_KEY);
+            }
+        }
+
+        if (mRecipes.isEmpty() == true || mRecipes == null){
+
+            callToRecipes();
+        } else {
+            Log.e(TAG, "Reuses existing recipes. Saving data!!");
+            mAdapter.setRecipesData(mRecipes);
+        }
+    }
+
+    private void callToRecipes() {
+
+        if (isOnline(this)) {
+            mLoadingIndicator.setVisibility(View.VISIBLE);
+        } else {
+            Context context = MainActivity.this;
+            Intent noConnectionIntent = new Intent(context, NoInternetConnectionActivity.class);
+            startActivity(noConnectionIntent);
+        }
+
         Call<List<Recipe>> call = new NetworkUtils().getRecipesApiService().getRecipes();
         call.enqueue(new Callback<List<Recipe>>() {
             @Override
             public void onResponse(Call<List<Recipe>> call, Response<List<Recipe>> response) {
-                mLoadingIndicator.setVisibility(View.INVISIBLE);
-                Log.e(TAG, "onResponse - No. Recipes: " + response.body().size());
 
-                mAdapter.setRecipesData(response.body());
+                Log.e(TAG, "onResponse - Retrieves New Recipes: " + response.body().size());
+                mLoadingIndicator.setVisibility(View.INVISIBLE);
+                mRecipes = response.body();
+                Log.e(TAG, "onResponse - recipes: " + mRecipes.size());
+                mAdapter.setRecipesData(mRecipes);
             }
 
             @Override
@@ -61,5 +98,13 @@ public class MainActivity extends AppCompatActivity {
                 mErrorDisplay.setVisibility(View.VISIBLE);
             }
         });
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle savedInstanceState) {
+        if (mRecipes != null)
+            savedInstanceState.putSerializable(LIST_RECIPES_KEY, (Serializable) mRecipes);
+
+        super.onSaveInstanceState(savedInstanceState);
     }
 }
