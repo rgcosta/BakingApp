@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.romul.bakingapp.Adapters.RecipesAdapter;
 import com.example.romul.bakingapp.Models.Recipe;
@@ -25,7 +26,7 @@ import retrofit2.Response;
 
 import static com.example.romul.bakingapp.Utils.NetworkUtils.isOnline;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements RecipesAdapter.RecipesOnClickHandler {
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
@@ -51,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
         mRecipesList.setLayoutManager(layoutManager);
         mRecipesList.setHasFixedSize(true);
 
-        this.mAdapter = new RecipesAdapter();
+        this.mAdapter = new RecipesAdapter(this);
         mRecipesList.setAdapter(mAdapter);
 
         if (savedInstanceState != null){
@@ -106,5 +107,12 @@ public class MainActivity extends AppCompatActivity {
             savedInstanceState.putSerializable(LIST_RECIPES_KEY, (Serializable) mRecipes);
 
         super.onSaveInstanceState(savedInstanceState);
+    }
+
+    @Override
+    public void onClick(Recipe recipeClicked) {
+        Intent intentSteps = new Intent(this, StepsActivity.class);
+        intentSteps.putExtra(StepsActivity.EXTRA_RECIPE, recipeClicked);
+        startActivity(intentSteps);
     }
 }

@@ -18,7 +18,14 @@ public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.RecipeVi
 
     private List<Recipe> mRecipes = new ArrayList<>();
 
-    public RecipesAdapter(){
+    RecipesOnClickHandler mClickHandler;
+
+    public interface RecipesOnClickHandler {
+        void onClick(Recipe recipeClicked);
+    }
+
+    public RecipesAdapter(RecipesOnClickHandler onClickHandler){
+        this.mClickHandler = onClickHandler;
     }
 
     @NonNull
@@ -55,7 +62,7 @@ public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.RecipeVi
         notifyDataSetChanged();
     }
 
-    public class RecipeViewHolder extends RecyclerView.ViewHolder {
+    public class RecipeViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         TextView mRecipeNameTextView;
         TextView mServingsQtdTextView;
@@ -64,6 +71,14 @@ public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.RecipeVi
             super(itemView);
             this.mRecipeNameTextView = itemView.findViewById(R.id.tv_recipe_name);
             this.mServingsQtdTextView = itemView.findViewById(R.id.tv_servings_qtd);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            int adapterPosition = getAdapterPosition();
+            Recipe recipeClicked = mRecipes.get(adapterPosition);
+            mClickHandler.onClick(recipeClicked);
         }
     }
 }

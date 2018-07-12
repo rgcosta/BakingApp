@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_ingredient_item"
+        android:text="@string/ingredient_item"
+        android:textColor="@color/colorSecundaryText"
+        android:layout_marginLeft="@dimen/text_margin_16dp"
+        style="@style/TextAppearance.AppCompat.Headline"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_ingredient_label"
+        tools:text="Chocolate Amargo"
+        android:layout_marginLeft="@dimen/text_margin_4dp"
+        style="@style/TextAppearance.Widget.AppCompat.Toolbar.Subtitle"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_opens_parenthese"
+        android:text="@string/opens_parenthese"
+        android:layout_marginLeft="@dimen/text_margin_4dp"
+        style="@style/TextAppearance.Widget.AppCompat.Toolbar.Subtitle"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_qtd_label"
+        tools:text="200"
+        style="@style/TextAppearance.Widget.AppCompat.Toolbar.Subtitle"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_mensure_label"
+        tools:text="G"
+        android:layout_marginLeft="@dimen/text_margin_4dp"
+        style="@style/TextAppearance.Widget.AppCompat.Toolbar.Subtitle"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_closes_parenthese"
+        android:text="@string/closes_parenthese"
+        style="@style/TextAppearance.Widget.AppCompat.Toolbar.Subtitle"/>
+
+</LinearLayout>

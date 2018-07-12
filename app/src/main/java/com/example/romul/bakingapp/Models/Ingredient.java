@@ -7,7 +7,7 @@ import java.io.Serializable;
 public class Ingredient implements Serializable {
 
     @JsonProperty("quantity")
-    private int qtd;
+    private double qtd;
 
     @JsonProperty("measure")
     private String measure;
@@ -18,7 +18,7 @@ public class Ingredient implements Serializable {
     public Ingredient(){
     }
 
-    public int getQtd() {
+    public double getQtd() {
         return qtd;
     }
 
@@ -30,7 +30,7 @@ public class Ingredient implements Serializable {
         return ingredient;
     }
 
-    public void setQtd(int qtd) {
+    public void setQtd(double qtd) {
         this.qtd = qtd;
     }
 

@@ -12,4 +12,11 @@
     <string name="no_internet">Sem internet?</string>
     <string name="offline_label">Offline</string>
 
+    <!-- StepsFragment
+    -->
+    <string name="ingredients_list">Ingredients List:</string>
+    <string name="ingredient_item">- </string>
+    <string name="opens_parenthese">(</string>
+    <string name="closes_parenthese">)</string>
+
 </resources>
