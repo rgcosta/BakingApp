@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:forceHasOverlappingRendering="true">
 
     <TextView
         android:layout_width="wrap_content"
@@ -11,45 +13,70 @@
         android:id="@+id/tv_ingredient_item"
         android:text="@string/ingredient_item"
         android:textColor="@color/colorSecundaryText"
-        android:layout_marginLeft="@dimen/text_margin_16dp"
-        style="@style/TextAppearance.AppCompat.Headline"/>
+        android:layout_marginLeft="@dimen/text_margin_8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        style="@style/TextAppearance.Widget.AppCompat.Toolbar.Subtitle"/>
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:id="@+id/tv_ingredient_label"
-        tools:text="Chocolate Amargo"
+        style="@style/TextAppearance.Widget.AppCompat.Toolbar.Subtitle"
+        android:layout_width="@dimen/ingredient_item_text_length"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/text_margin_4dp"
-        style="@style/TextAppearance.Widget.AppCompat.Toolbar.Subtitle"/>
+        android:forceHasOverlappingRendering="true"
+        android:textColor="@color/colorSecundaryText"
+        app:layout_constraintLeft_toRightOf="@+id/tv_ingredient_item"
+        tools:text="unsalted butter, softened and cut into 1 in. cubes" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/tv_opens_parenthese"
         android:text="@string/opens_parenthese"
-        android:layout_marginLeft="@dimen/text_margin_4dp"
-        style="@style/TextAppearance.Widget.AppCompat.Toolbar.Subtitle"/>
+        android:textColor="@color/colorSecundaryText"
+        android:forceHasOverlappingRendering="true"
+        style="@style/TextAppearance.Widget.AppCompat.Toolbar.Subtitle"
+        app:layout_constraintLeft_toRightOf="@+id/tv_ingredient_label" />
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:id="@+id/tv_qtd_label"
+        style="@style/TextAppearance.Widget.AppCompat.Toolbar.Subtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:forceHasOverlappingRendering="true"
+        android:textColor="@color/colorSecundaryText"
         tools:text="200"
-        style="@style/TextAppearance.Widget.AppCompat.Toolbar.Subtitle"/>
+        app:layout_constraintLeft_toRightOf="@+id/tv_opens_parenthese"/>
 
     <TextView
+        android:id="@+id/tv_space"
+        style="@style/TextAppearance.Widget.AppCompat.Toolbar.Subtitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:forceHasOverlappingRendering="true"
+        android:text=" "
+        android:textColor="@color/colorSecundaryText"
+        app:layout_constraintLeft_toRightOf="@+id/tv_qtd_label" />
+
+    <TextView
         android:id="@+id/tv_mensure_label"
-        tools:text="G"
-        android:layout_marginLeft="@dimen/text_margin_4dp"
-        style="@style/TextAppearance.Widget.AppCompat.Toolbar.Subtitle"/>
-
-    <TextView
+        style="@style/TextAppearance.Widget.AppCompat.Toolbar.Subtitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/tv_closes_parenthese"
-        android:text="@string/closes_parenthese"
-        style="@style/TextAppearance.Widget.AppCompat.Toolbar.Subtitle"/>
+        android:forceHasOverlappingRendering="true"
+        android:textColor="@color/colorSecundaryText"
+        tools:text="G"
+        app:layout_constraintLeft_toRightOf="@+id/tv_space"/>
 
-</LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_closes_parenthese"
+        style="@style/TextAppearance.Widget.AppCompat.Toolbar.Subtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:forceHasOverlappingRendering="true"
+        android:text="@string/closes_parenthese"
+        android:textColor="@color/colorSecundaryText"
+        app:layout_constraintLeft_toRightOf="@+id/tv_mensure_label" />
+
+</android.support.constraint.ConstraintLayout>
