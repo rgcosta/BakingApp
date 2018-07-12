@@ -6,10 +6,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.widget.ArrayAdapter;
 
 import com.example.romul.bakingapp.Fragments.StepsFragment;
 import com.example.romul.bakingapp.Models.Recipe;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,6 +47,16 @@ public class StepsActivity extends AppCompatActivity {
                             .commit();
                 }
             }
+        } else if (savedInstanceState.containsKey(EXTRA_RECIPE)) {
+            String recipeName = ((Recipe) savedInstanceState.getSerializable(EXTRA_RECIPE)).getName();
+            getSupportActionBar().setTitle(recipeName);
         }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        if (mRecipe != null)
+            outState.putSerializable(EXTRA_RECIPE, mRecipe);
+        super.onSaveInstanceState(outState);
     }
 }

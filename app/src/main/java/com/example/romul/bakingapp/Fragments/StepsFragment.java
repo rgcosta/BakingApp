@@ -1,9 +1,13 @@
 package com.example.romul.bakingapp.Fragments;
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -12,10 +16,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.romul.bakingapp.Adapters.IngredientsAdapter;
+import com.example.romul.bakingapp.Adapters.StepsAdapter;
 import com.example.romul.bakingapp.Models.Recipe;
 import com.example.romul.bakingapp.R;
-import com.example.romul.bakingapp.StepsActivity;
 
+import static android.support.v7.widget.DividerItemDecoration.VERTICAL;
 import static com.example.romul.bakingapp.StepsActivity.EXTRA_RECIPE;
 
 
@@ -40,21 +45,47 @@ public class StepsFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_steps, container, false);
 
+        //initIngredientsRecyclerView(rootView);
+
+        initStepsRecyclerView(rootView);
+
+        return rootView;
+    }
+
+    private void initStepsRecyclerView(View rootView) {
+        RecyclerView rvStepsList = rootView.findViewById(R.id.rv_steps);
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(rootView.getContext());
+        rvStepsList.setHasFixedSize(true);
+        rvStepsList.setLayoutManager(layoutManager);
+
+        DividerItemDecoration decor = new DividerItemDecoration(rootView.getContext(), VERTICAL);
+        rvStepsList.addItemDecoration(decor);
+
+        StepsAdapter stepsAdapter = new StepsAdapter();
+        rvStepsList.setAdapter(stepsAdapter);
+
+        if (mRecipe.getSteps() != null){
+            Log.e(TAG, "initStepsRecyclerView - Steps: " + mRecipe.getSteps().size());
+            stepsAdapter.setSteps(mRecipe.getSteps());
+        }
+    }
+
+    private void initIngredientsRecyclerView(View rootView) {
         RecyclerView rvIngredientsList = rootView.findViewById(R.id.rv_ingredients);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(rootView.getContext());
-        rvIngredientsList.setLayoutManager(layoutManager);
         rvIngredientsList.setHasFixedSize(true);
+        rvIngredientsList.setLayoutManager(layoutManager);
+
 
         IngredientsAdapter ingredientsAdapter = new IngredientsAdapter();
         rvIngredientsList.setAdapter(ingredientsAdapter);
 
-        if (mRecipe != null){
-            Log.e(TAG, "onCreateView - Ingredients: " + mRecipe.getIngredients().size());
+        if (mRecipe.getIngredients() != null){
+            Log.e(TAG, "initIngredientsRecyclerView - Ingredients: " + mRecipe.getIngredients().size());
             ingredientsAdapter.setIngredients(mRecipe.getIngredients());
         }
-
-        return rootView;
     }
 
     public void setRecipe(Recipe mRecipe) {

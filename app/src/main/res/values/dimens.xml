@@ -8,4 +8,5 @@
     <dimen name="text_margin_16dp">16dp</dimen>
     <dimen name="text_margin_4dp">4dp</dimen>
     <dimen name="ingredient_item_text_length">240dp</dimen>
+    <dimen name="spacer_steps">10dp</dimen>
 </resources>
