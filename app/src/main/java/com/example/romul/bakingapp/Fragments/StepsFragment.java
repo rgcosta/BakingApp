@@ -14,6 +14,9 @@ import android.view.ViewGroup;
 import com.example.romul.bakingapp.Adapters.IngredientsAdapter;
 import com.example.romul.bakingapp.Models.Recipe;
 import com.example.romul.bakingapp.R;
+import com.example.romul.bakingapp.StepsActivity;
+
+import static com.example.romul.bakingapp.StepsActivity.EXTRA_RECIPE;
 
 
 public class StepsFragment extends Fragment {
@@ -28,6 +31,12 @@ public class StepsFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
+        if (savedInstanceState != null){
+            if (savedInstanceState.containsKey(EXTRA_RECIPE)){
+                mRecipe = (Recipe) savedInstanceState.getSerializable(EXTRA_RECIPE);
+            }
+        }
 
         View rootView = inflater.inflate(R.layout.fragment_steps, container, false);
 
@@ -45,11 +54,17 @@ public class StepsFragment extends Fragment {
             ingredientsAdapter.setIngredients(mRecipe.getIngredients());
         }
 
-
         return rootView;
     }
 
     public void setRecipe(Recipe mRecipe) {
         this.mRecipe = mRecipe;
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        if (mRecipe != null)
+            outState.putSerializable(EXTRA_RECIPE, mRecipe);
+        super.onSaveInstanceState(outState);
     }
 }
