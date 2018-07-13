@@ -24,10 +24,18 @@
         <activity android:name=".NoInternetConnectionActivity" />
         <activity
             android:name=".StepsActivity"
+            android:launchMode="singleTop"
             android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity"/>
+                android:value=".MainActivity" />
+        </activity>
+        <activity
+            android:name=".StepDetailActivity"
+            android:parentActivityName=".StepsActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".StepsActivity"/>
         </activity>
     </application>
 
