@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.romul.bakingapp.Models.Step;
 import com.example.romul.bakingapp.R;
@@ -38,6 +39,8 @@ public class StepDetailLayoutFragment extends Fragment {
     private SimpleExoPlayerView mPlayerView;
     private long mVideoPosition;
     private boolean isPlaying;
+    private TextView mFullDesc;
+    private TextView mShortDesc;
 
 
     public StepDetailLayoutFragment(){
@@ -60,15 +63,18 @@ public class StepDetailLayoutFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_step_detail_layout, container, false);
 
         mPlayerView = rootView.findViewById(R.id.playerView);
+        mFullDesc = rootView.findViewById(R.id.tv_full_description);
+        mShortDesc = rootView.findViewById(R.id.tv_short_description);
 
-        //initializeMediaSession();
+        mFullDesc.setText(mStep.getFullDescription());
+        mShortDesc.setText(mStep.getShortDescription());
 
         if (mStep.getVideoURL().length() > 0){
             initializePlayer(Uri.parse(mStep.getVideoURL()));
             Log.e(TAG, "onCreateView - playVideo " + mStep.getId() );
         } else {
-            mPlayerView.setVisibility(View.INVISIBLE);
-            Log.e(TAG, "onCreateView - INVISIBLE " + mStep.getId());
+            mPlayerView.setVisibility(View.GONE);
+            Log.e(TAG, "onCreateView - No Video Player " + mStep.getId());
         }
 
         return rootView;

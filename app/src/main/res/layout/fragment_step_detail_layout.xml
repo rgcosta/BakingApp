@@ -8,8 +8,23 @@
     <com.google.android.exoplayer2.ui.SimpleExoPlayerView
         android:id="@+id/playerView"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content" />
 
-    </com.google.android.exoplayer2.ui.SimpleExoPlayerView>
+    <TextView
+        android:id="@+id/tv_short_description"
+        android:textColor="@color/colorPrimaryText"
+        style="@style/TextAppearance.AppCompat.Title"
+        android:layout_margin="@dimen/text_margin_8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/tv_full_description"
+        android:textColor="@color/colorSecundaryText"
+        tools:text="Test"
+        style="@style/TextAppearance.AppCompat.Subhead"
+        android:layout_margin="@dimen/text_margin_8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

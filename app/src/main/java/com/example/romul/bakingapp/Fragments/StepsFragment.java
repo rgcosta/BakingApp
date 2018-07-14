@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
@@ -48,9 +49,10 @@ public class StepsFragment extends Fragment implements StepsAdapter.StepsOnClick
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        if (savedInstanceState != null){
-            if (savedInstanceState.containsKey(EXTRA_RECIPE)){
-                mRecipe = (Recipe) savedInstanceState.getSerializable(EXTRA_RECIPE);
+        Intent intent = getActivity().getIntent();
+        if (intent != null) {
+            if (intent.hasExtra(EXTRA_RECIPE)) {
+                this.mRecipe = (Recipe) intent.getSerializableExtra(EXTRA_RECIPE);
             }
         }
 
@@ -99,26 +101,23 @@ public class StepsFragment extends Fragment implements StepsAdapter.StepsOnClick
         }
     }
 
-
-
-    public void setRecipe(Recipe mRecipe) {
-        this.mRecipe = mRecipe;
-    }
-
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        if (mRecipe != null)
-            outState.putSerializable(EXTRA_RECIPE, mRecipe);
-        super.onSaveInstanceState(outState);
-    }
-
     @Override
     public void onClick(List<Step> steps, int stepSelected) {
-        Intent intentStepDetail = new Intent(getContext(), StepDetailActivity.class);
-        intentStepDetail.putExtra(EXTRA_STEPS, (Serializable) steps);
-        intentStepDetail.putExtra(Intent.EXTRA_INDEX, stepSelected);
-        intentStepDetail.putExtra(Intent.EXTRA_PACKAGE_NAME, mRecipe.getName());
-        startActivity(intentStepDetail);
-        //Toast.makeText(getContext(), steps.get(stepSelected).getShortDescription(), Toast.LENGTH_SHORT).show();
+
+        if (getActivity().findViewById(R.id.second_panel_linear_layout) == null) {
+            Log.e(TAG, "onClick - from Mobile");
+
+            Intent intentStepDetail = new Intent(getContext(), StepDetailActivity.class);
+            intentStepDetail.putExtra(EXTRA_STEPS, (Serializable) steps);
+            intentStepDetail.putExtra(Intent.EXTRA_INDEX, stepSelected);
+            intentStepDetail.putExtra(Intent.EXTRA_PACKAGE_NAME, mRecipe.getName());
+            startActivity(intentStepDetail);
+
+        } else {
+            Log.e(TAG, "onClick - from Tablet");
+
+            ViewPager tabViewPager = getActivity().findViewById(R.id.tab_view_pager);
+            tabViewPager.setCurrentItem(stepSelected);
+        }
     }
 }

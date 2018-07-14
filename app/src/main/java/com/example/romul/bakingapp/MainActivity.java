@@ -5,8 +5,10 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -49,8 +51,13 @@ public class MainActivity extends AppCompatActivity implements RecipesAdapter.Re
         this.mLoadingIndicator = findViewById(R.id.pb_loading_indicator);
         this.mRecipesList = findViewById(R.id.rv_recipes);
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        mRecipesList.setLayoutManager(layoutManager);
+        if (getDeviceWidth() <= 320) {
+            GridLayoutManager layoutManager = new GridLayoutManager(this,2);
+            mRecipesList.setLayoutManager(layoutManager);
+        } else {
+            LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+            mRecipesList.setLayoutManager(layoutManager);
+        }
         mRecipesList.setHasFixedSize(true);
 
         this.mAdapter = new RecipesAdapter(this);
@@ -69,6 +76,18 @@ public class MainActivity extends AppCompatActivity implements RecipesAdapter.Re
             Log.e(TAG, "Reuses existing recipes. Saving data!!");
             mAdapter.setRecipesData(mRecipes);
         }
+    }
+
+    private float getDeviceWidth() {
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+
+        int widthPixels = metrics.widthPixels;
+        float widthDpi = metrics.xdpi;
+        Log.e(TAG, "widthPixels  = " + widthPixels);
+        Log.e(TAG, "WidthDpi  = " + widthDpi);
+
+        return widthDpi;
     }
 
     private void callToRecipes() {

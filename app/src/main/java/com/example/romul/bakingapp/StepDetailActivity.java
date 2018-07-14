@@ -21,46 +21,35 @@ public class StepDetailActivity extends AppCompatActivity {
 
     private List<Step> mSteps = new ArrayList<>();
     private int mStepSelected;
-    private String mRecipeTitleToolBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_step_detail);
 
+        Intent intent = getIntent();
+        if (intent != null) {
+            if (intent.hasExtra(EXTRA_STEPS) && intent.hasExtra(Intent.EXTRA_INDEX)) {
+                this.mSteps = (List<Step>) intent.getSerializableExtra(EXTRA_STEPS);
+                this.mStepSelected = intent.getIntExtra(Intent.EXTRA_INDEX, 0);
+                String recipeTitleToolBar = intent.getStringExtra(Intent.EXTRA_PACKAGE_NAME);
+
+                getSupportActionBar().setTitle(recipeTitleToolBar);
+            }
+        }
+
         if (savedInstanceState == null){
 
-            Intent intent = getIntent();
-            if (intent != null){
-                if (intent.hasExtra(EXTRA_STEPS) && intent.hasExtra(Intent.EXTRA_INDEX)){
-                    this.mSteps = (List<Step>) intent.getSerializableExtra(EXTRA_STEPS);
-                    this.mStepSelected = intent.getIntExtra(Intent.EXTRA_INDEX, 0);
-                    this.mRecipeTitleToolBar = intent.getStringExtra(Intent.EXTRA_PACKAGE_NAME);
+            StepDetailFragment stepDetailFragment = new StepDetailFragment();
+            stepDetailFragment.setSteps(mSteps);
+            stepDetailFragment.setStepSelected(mStepSelected);
 
-                    getSupportActionBar().setTitle(mRecipeTitleToolBar);
+            FragmentManager fragmentManager = getSupportFragmentManager();
 
-                    StepDetailFragment stepDetailFragment = new StepDetailFragment();
-                    stepDetailFragment.setSteps(mSteps);
-                    stepDetailFragment.setStepSelected(mStepSelected);
+            fragmentManager.beginTransaction()
+                    .add(R.id.step_detail_container, stepDetailFragment)
+                    .commit();
 
-                    FragmentManager fragmentManager = getSupportFragmentManager();
-
-                    fragmentManager.beginTransaction()
-                            .add(R.id.step_detail_container, stepDetailFragment)
-                            .commit();
-
-                }
-            }
-        } else if (savedInstanceState.containsKey(RECIPE_TITLE_TOOLBAR_KEY)) {
-            mRecipeTitleToolBar = savedInstanceState.getString(RECIPE_TITLE_TOOLBAR_KEY);
-            getSupportActionBar().setTitle(mRecipeTitleToolBar);
         }
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        if (mRecipeTitleToolBar != null)
-            outState.putString(RECIPE_TITLE_TOOLBAR_KEY, mRecipeTitleToolBar);
-        super.onSaveInstanceState(outState);
     }
 }

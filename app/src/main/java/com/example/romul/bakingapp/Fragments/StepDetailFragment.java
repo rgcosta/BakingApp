@@ -63,7 +63,6 @@ public class StepDetailFragment extends Fragment {
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                Log.e(TAG, "onTabSelected: " + tab.getPosition());
             }
 
             @Override
@@ -89,12 +88,6 @@ public class StepDetailFragment extends Fragment {
         });
 
         return rootView;
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-
     }
 
     public void setSteps(List<Step> mSteps) {
