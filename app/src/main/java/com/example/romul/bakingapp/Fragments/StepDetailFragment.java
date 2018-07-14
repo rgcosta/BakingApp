@@ -52,15 +52,49 @@ public class StepDetailFragment extends Fragment {
             tabsAdapter.addData(stepDetailLayoutFragment, "Step: " + step.getId());
         }
 
+
         //bind of the elements
-        ViewPager tabViewPager = rootView.findViewById(R.id.tab_view_pager);
+        final ViewPager tabViewPager = rootView.findViewById(R.id.tab_view_pager);
         tabViewPager.setAdapter(tabsAdapter);
         tabViewPager.setCurrentItem(mStepSelected);
 
         TabLayout tabLayout = rootView.findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(tabViewPager);
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                Log.e(TAG, "onTabSelected: " + tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+                Log.e(TAG, "onTabUnselected: " + tab.getPosition());
+
+                List<Fragment> fragments = getFragmentManager().getFragments();
+
+                StepDetailLayoutFragment currentFragmentUnselected;
+                for (Fragment fragment : fragments) {
+
+                    if (fragment instanceof StepDetailLayoutFragment){
+                        currentFragmentUnselected = (StepDetailLayoutFragment) fragment;
+                        currentFragmentUnselected.pausePlayer();
+                    }
+                }
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
 
         return rootView;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
     }
 
     public void setSteps(List<Step> mSteps) {

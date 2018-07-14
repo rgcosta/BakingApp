@@ -5,20 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/tv_video_link"
-        tools:text="http://www.goo.com"
-        android:textColor="@color/colorPrimaryText"
+    <com.google.android.exoplayer2.ui.SimpleExoPlayerView
+        android:id="@+id/playerView"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/tv_full_description"
-        tools:text="full description."
-        android:textColor="@color/colorPrimaryText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-
+    </com.google.android.exoplayer2.ui.SimpleExoPlayerView>
 
 </LinearLayout>
