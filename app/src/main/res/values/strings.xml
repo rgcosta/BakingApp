@@ -20,5 +20,7 @@
     <string name="closes_parenthese">)</string>
     <string name="play_icon_description">Icone de play para rodar o vídeo.</string>
     <string name="dot">.</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
 
 </resources>

@@ -1,6 +1,8 @@
 package com.example.romul.bakingapp.Fragments;
 
 import android.app.Activity;
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -23,6 +25,10 @@ import android.widget.Toast;
 
 import com.example.romul.bakingapp.Adapters.IngredientsAdapter;
 import com.example.romul.bakingapp.Adapters.StepsAdapter;
+import com.example.romul.bakingapp.BakingWidgetProvider;
+import com.example.romul.bakingapp.Database.AppDatabase;
+import com.example.romul.bakingapp.Database.AppExecutors;
+import com.example.romul.bakingapp.Models.Ingredient;
 import com.example.romul.bakingapp.Models.Recipe;
 import com.example.romul.bakingapp.Models.Step;
 import com.example.romul.bakingapp.R;
@@ -41,6 +47,7 @@ public class StepsFragment extends Fragment implements StepsAdapter.StepsOnClick
     private static final String TAG = StepsFragment.class.getSimpleName();
 
     private Recipe mRecipe;
+    private AppDatabase mDb;
 
     public StepsFragment(){
     }
@@ -57,6 +64,34 @@ public class StepsFragment extends Fragment implements StepsAdapter.StepsOnClick
         }
 
         View rootView = inflater.inflate(R.layout.fragment_steps, container, false);
+
+        mDb = AppDatabase.getInstance(getContext());
+
+        AppExecutors.getInstance().diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                Recipe currentRecipe = mDb.recipeDao().loadRecipe();
+
+                if (currentRecipe == null){
+                    mDb.recipeDao().insertRecipe(mRecipe);
+                    mDb.ingredientDao().insertIngredients(mRecipe.getIngredients());
+
+                } else if (!currentRecipe.getName().equals(mRecipe.getName())){
+                    Log.e(TAG, "Updating ingredients");
+                    mDb.ingredientDao().deleteIngredients(mDb.ingredientDao().loadAllIngredients());
+                    mDb.ingredientDao().insertIngredients(mRecipe.getIngredients());
+
+                    mRecipe.setIdTable(1);
+                    mDb.recipeDao().updateRecipe(mRecipe);
+
+                    AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(getContext());
+                    int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(getContext(), BakingWidgetProvider.class));
+
+                    appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.list_view_widget);
+                    BakingWidgetProvider.updateAppWidgets(getContext(), appWidgetManager, appWidgetIds);
+                }
+            }
+        });
 
         initIngredientsRecyclerView(rootView);
 
