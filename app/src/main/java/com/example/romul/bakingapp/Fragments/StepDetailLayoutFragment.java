@@ -89,9 +89,6 @@ public class StepDetailLayoutFragment extends Fragment {
             mExoPlayer = ExoPlayerFactory.newSimpleInstance(getContext(), trackSelector, loadControl);
             mPlayerView.setPlayer(mExoPlayer);
 
-            // Set the ExoPlayer.EventListener to this activity.
-            //mExoPlayer.addListener(this);
-
             // Prepare the MediaSource.
             String userAgent = getUserAgent(getContext(), "BakingApp");
             MediaSource mediaSource = new ExtractorMediaSource(mediaUri, new DefaultDataSourceFactory(
