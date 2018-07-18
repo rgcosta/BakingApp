@@ -146,5 +146,15 @@ public class StepDetailLayoutFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        pausePlayer();
+    }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        pausePlayer();
+    }
 }
